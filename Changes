@@ -1,0 +1,66 @@
+Revision history for Perl extension HTML::Strip.
+
+1.07  Tue Sep 23 14:44:08 UTC 2014
+    - fix to bug RT#19036 - tags not replaced with spaces when only a single
+      character is between the tags
+    - fix to bug RT#35345 - mathematical conparisons within <script> tags
+      misunderstood
+    (patches contributed by Adriano Ferreira)
+    - Exporter was never needed
+    - Allow other filtering operations than just decoding of HTML entities
+    - Modernised test suite
+    - Adds 'auto_reset' attribute, which allows automagic use of $hs->eof
+    - fixes quotes in html comments (RT#32355)
+    (patch contributed by rurban@cpan.org)
+    - MSVC doesnt define strcasecmp, use stricmp instead
+    (patch contributed by Damyan Ivanov)
+    - fixes POD errors
+
+1.06  Fri Feb 10 11:18:35 2006
+	- documented 'set_decode_entities' method
+
+1.05  Thu Feb  9 12:11:50 2006
+	- added 'set_decode_entities' method
+
+1.04  Mon Jan 24 16:41:51 2005
+	- Replaced all instances of strcmp with strcasecmp to make the
+	  module case-insensitive towards HTML tag names
+
+1.03  Wed Jul  7 13:42:26 2004
+	- Added 'emit_spaces' configuration option which can turn off
+	  attempted conversion of HTML tags into spaces
+	- Constructor options now passed in a hash
+
+1.02  Tue Feb 24 16:24:18 2004
+        - Yet more checks to prevent extraneous whitespace
+        - Added many more tests
+
+1.01  Mon Jul  7 18:15:59 2003
+        - Removed provision for escaped quotes in attributes values
+        - More checks to prevent the outputting of extraneous whitespace
+
+1.00  Wed Jun 11 12:05:47 2003
+        - rewritten in C, using a struct for each object to keep track
+          of state and striptags
+
+0.05  Thu May 22 19:49:25 2003
+        - removed "XSOPT => '-C++'" from Makefile.PL as it was
+          unnecessary and causing problems for some people
+        - added "#include <string.h>" to strip_html.cpp as it's
+          absence was causing problems for some people
+
+0.04  Sun Mar 23 12:45:13 2003
+        - Tweaked docs, added FAQ explaining why 0.03 failed cpan testing
+
+0.03  Sat Mar 22 11:20:34 2003
+        - rewritten in C++ to make striptags an attribute of each
+          object
+
+0.02  Mon Mar 17 18:20:01 2003
+        - added set_striptags() method
+        - documented module
+
+0.01  Tue Mar  4 18:17:38 2003
+	- original version; created by h2xs 1.21 with options
+		-A -n HTML::Strip html_strip.h
+
