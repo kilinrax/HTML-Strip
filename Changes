@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::Strip.
 
+1.08  Fri Sep 26 15:02:37 UTC 2014
+    - system perl used in offbyone.t (RT#99151)
+
 1.07  Tue Sep 23 14:44:08 UTC 2014
     - fix to bug RT#19036 - tags not replaced with spaces when only a single
       character is between the tags
