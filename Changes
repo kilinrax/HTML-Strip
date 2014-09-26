@@ -14,7 +14,7 @@ Revision history for Perl extension HTML::Strip.
     - Modernised test suite
     - Adds 'auto_reset' attribute, which allows automagic use of $hs->eof
     - fixes quotes in html comments (RT#32355)
-    (patch contributed by rurban@cpan.org)
+    (patch contributed by Reini Urban)
     - MSVC doesnt define strcasecmp, use stricmp instead
     (patch contributed by Damyan Ivanov)
     - fixes POD errors
