@@ -30,7 +30,7 @@ BEGIN { use_ok 'HTML::Strip' }
   is( $hs->parse( '<img src="foo.gif" alt="a > b">bar' ), 'bar', 'works with quote attributes which contain >' );
   $hs->eof;
 
-  is( $hs->parse( '<script>if (a>b && a<c)</script>bar' ), 'bar', '<script> tag and content are stripped' );
+  is( $hs->parse( '<script> if (a>b && a<c) { ... } </script>bar' ), 'bar', '<script> tag and content are stripped' );
   $hs->eof;
 
   is( $hs->parse( '<# just data #>bar' ), 'bar', 'weird tags get stripped' );

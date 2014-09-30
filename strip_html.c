@@ -39,6 +39,12 @@ strip_html( Stripper * stripper, const char * raw, char * output ) {
         /* then check if the first character is a '/', in which case, this is a closing tag */
         else if( stripper->p_tagname == stripper->tagname && *p_raw == '/' ) {
           stripper->f_closing = 1;
+        }
+        /* if the first character wasn't a '/', and we're in a stripped block,
+         * assume this is a mathematical operator and reset */
+        else if( !stripper->f_closing && stripper->f_in_striptag && stripper->p_tagname == stripper->tagname && *p_raw != '/' ) {
+          stripper->f_in_tag = 0;
+          stripper->f_closing = 0;
         /* we only care about closing tags within a stripped tags block (e.g. scripts) */
         } else if( !stripper->f_in_striptag || stripper->f_closing ) {
           /* if we don't have the full tag name yet, add current character unless it's whitespace, a '/', or a '>';
@@ -215,11 +221,17 @@ check_end( Stripper * stripper, char end ) {
     stripper->f_lastchar_slash = 1;
   } else {
     /* if the current character is a '>', then the tag has ended */
-    if( end == '>' ) {
+    /* slight hack to deal with mathematical characters in script tags:
+     * if we're in a stripped block, and this is a closing tag, spaces
+     * will also end the tag, since we only want it for comparison with
+     * the opening one */
+    if( (end == '>') ||
+        (stripper->f_in_striptag && stripper->f_closing && isspace(end)) ) {
       stripper->f_in_quote = 0;
       stripper->f_in_comment = 0;
       stripper->f_in_decl = 0;
       stripper->f_in_tag = 0;
+      stripper->f_closing = 0;
       /* Do not start a stripped tag block if the tag is a closed one, e.g. '<script src="foo" />' */
       if( stripper->f_lastchar_slash &&
           (strcasecmp( stripper->striptag, stripper->tagname ) == 0) ) {
