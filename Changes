@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::Strip.
 
+1.10  Tue Sep 30 14:34:47 UTC 2014
+    - Fix for RT#99207 (script mathematical symbol bug).
+
 1.09  Tue Sep 30 10:39:47 UTC 2014
     - offbyone.t disabled under Windows (RT#99219)
 
