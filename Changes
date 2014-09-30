@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::Strip.
 
+1.09  Tue Sep 30 10:39:47 UTC 2014
+    - offbyone.t disabled under Windows (RT#99219)
+
 1.08  Fri Sep 26 15:02:37 UTC 2014
     - system perl used in offbyone.t (RT#99151)
 
