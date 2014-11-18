@@ -1,7 +1,11 @@
 Revision history for Perl extension HTML::Strip.
 
+2.00  Tue Nov 18 16:14:42 GMT 2014
+    - utf8 support via libicu (RT#42834)
+    - smoke test and utf8 test, tests ordered
+
 1.10  Tue Sep 30 14:34:47 UTC 2014
-    - Fix for RT#99207 (script mathematical symbol bug).
+    - Fix for RT#99207 (script mathematical symbol bug)
 
 1.09  Tue Sep 30 10:39:47 UTC 2014
     - offbyone.t disabled under Windows (RT#99219)

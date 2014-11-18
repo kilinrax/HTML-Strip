@@ -1,9 +1,12 @@
 use Test::More tests => 19;
 
+use feature 'unicode_strings';
+use utf8;
+
 BEGIN { use_ok 'HTML::Strip' }
 
 {
-  my $hs = new HTML::Strip;
+  my $hs = HTML::Strip->new(debug => 1);
 
   is( $hs->parse( 'test' ), 'test', 'works with plain text' );
   $hs->eof;
