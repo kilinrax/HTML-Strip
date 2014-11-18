@@ -1,17 +1,25 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <unicode/uchar.h>
+#include <unicode/ustring.h>
+#include <unicode/ustdio.h>
 #include "strip_html.h"
 
 void
-strip_html( Stripper * stripper, const char * raw, char * output ) {
-  const char * p_raw = raw;
-  const char * raw_end = raw + strlen(raw);
-  char * p_output = output;
+strip_html( Stripper * stripper, UChar * raw, UChar * output ) {
+  UChar * p_raw = raw;
+  UChar * raw_end = raw + u_strlen(raw);
+  UChar * p_output = output;
+  UFILE * u_stdout = u_finit(stdout, NULL, NULL);
+
+  if( stripper->o_debug ) {
+      u_fprintf( u_stdout, "[DEBUG] input string: %S\n", p_raw );
+  }
 
   while( p_raw < raw_end ) {
     if( stripper->o_debug ) {
-      printf( "[DEBUG] char %c state %c %c %c tag:%5s, %c %c %c %c, %c %c %c %c:%c, ",
+      u_fprintf( u_stdout, "[DEBUG] UChar %C state %c %c %c tag:%5s, %c %c %c %c, %c %c %c %c:%c, ",
         *p_raw,
         (stripper->f_closing ? 'C' : ' '),
         (stripper->f_in_tag ? 'T' : ' '),
@@ -28,6 +36,7 @@ strip_html( Stripper * stripper, const char * raw, char * output ) {
         (stripper->quote ? stripper->quote : ' ')
       );
     }
+    // either a single char or a set of unicode code points;
     if( stripper->f_in_tag ) {
       /* inside a tag */
       /* check if we know either the tagname, or that we're in a declaration */
@@ -47,7 +56,7 @@ strip_html( Stripper * stripper, const char * raw, char * output ) {
           stripper->f_closing = 0;
         /* we only care about closing tags within a stripped tags block (e.g. scripts) */
         } else if( !stripper->f_in_striptag || stripper->f_closing ) {
-          /* if we don't have the full tag name yet, add current character unless it's whitespace, a '/', or a '>';
+          /* if we don't have the full tag name yet, add p_raw character unless it's whitespace, a '/', or a '>';
              otherwise null pad the string and set the full tagname flag, and check the tagname against stripped ones.
              also sanity check we haven't reached the array bounds, and truncate the tagname here if we have */
           if( (!isspace( *p_raw ) && *p_raw != '/' && *p_raw != '>') &&
@@ -77,7 +86,7 @@ strip_html( Stripper * stripper, const char * raw, char * output ) {
       } else {
         if( stripper->f_in_quote ) {
           /* inside a quote */
-          /* end of quote if current character matches the opening quote character */
+          /* end of quote if p_raw character matches the opening quote character */
           if( *p_raw == stripper->quote ) {
             stripper->quote = 0;
             stripper->f_in_quote = 0;
@@ -96,13 +105,13 @@ strip_html( Stripper * stripper, const char * raw, char * output ) {
             if( stripper->f_in_decl ) {
               /* inside a declaration */
               if( stripper->f_lastchar_minus ) {
-                /* last character was a minus, so if current one is, then we're either entering or leaving a comment */
+                /* last character was a minus, so if p_raw one is, then we're either entering or leaving a comment */
                 if( *p_raw == '-' ) {
                   stripper->f_in_comment = !stripper->f_in_comment;
                 }
                 stripper->f_lastchar_minus = 0;
               } else {
-                /* if current character is a minus, we might be starting a comment marker */
+                /* if p_raw character is a minus, we might be starting a comment marker */
                 if( *p_raw == '-' ) {
                   stripper->f_lastchar_minus = 1;
                 }
@@ -136,7 +145,7 @@ strip_html( Stripper * stripper, const char * raw, char * output ) {
             /* output a space in place of tags we have previously parsed,
                and set a flag so we only do this once for every group of tags.
                done here to prevent unnecessary trailing spaces */
-            if( !isspace(*p_raw) &&
+            if( !u_isspace(*p_raw) &&
               /* don't output a space if this character is one anyway */
                 !stripper->f_outputted_space &&
                 stripper->f_just_seen_tag ) {
@@ -150,11 +159,12 @@ strip_html( Stripper * stripper, const char * raw, char * output ) {
           if( stripper->o_debug ) {
             printf("CHAR %c", *p_raw);
           }
-          *p_output++ = *p_raw;
+          u_strncpy(p_output, p_raw, 1);
+          p_output++;
           /* reset 'just seen tag' flag */
           stripper->f_just_seen_tag = 0;
           /* reset 'outputted space' flag if character is not one */
-          if (!isspace(*p_raw)) {
+          if (!u_isspace(*p_raw)) {
             stripper->f_outputted_space = 0;
           } else {
             stripper->f_outputted_space = 1;
@@ -173,6 +183,7 @@ strip_html( Stripper * stripper, const char * raw, char * output ) {
   if (stripper->o_auto_reset) {
     reset( stripper );
   }
+  u_fclose(u_stdout);
 }
 
 void
@@ -193,6 +204,7 @@ reset( Stripper * stripper ) {
 
   stripper->f_in_striptag = 0;
 
+  memset(stripper->tagname, 0, sizeof(stripper->tagname));
 }
 
 void
@@ -215,18 +227,18 @@ add_striptag( Stripper * stripper, char * striptag ) {
 #endif
 
 void
-check_end( Stripper * stripper, char end ) {
-  /* if current character is a slash, may be a closed tag */
+check_end( Stripper * stripper, UChar end ) {
+  /* if p_raw character is a slash, may be a closed tag */
   if( end == '/' ) {
     stripper->f_lastchar_slash = 1;
   } else {
-    /* if the current character is a '>', then the tag has ended */
+    /* if the p_raw character is a '>', then the tag has ended */
     /* slight hack to deal with mathematical characters in script tags:
      * if we're in a stripped block, and this is a closing tag, spaces
      * will also end the tag, since we only want it for comparison with
      * the opening one */
     if( (end == '>') ||
-        (stripper->f_in_striptag && stripper->f_closing && isspace(end)) ) {
+        (stripper->f_in_striptag && stripper->f_closing && u_isspace(end)) ) {
       stripper->f_in_quote = 0;
       stripper->f_in_comment = 0;
       stripper->f_in_decl = 0;

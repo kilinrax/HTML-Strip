@@ -29,7 +29,7 @@ WriteMakefile(
         },
     },
   ) : () ),
-    'LIBS'              => [''], # e.g., '-lm'
+    'LIBS'              => ['-licuuc -licuio'], # e.g., '-lm'
     'DEFINE'            => '', # e.g., '-DHAVE_SOMETHING'
     'INC'               => '', # e.g., '-I/usr/include/other'
     'OBJECT'            => '$(O_FILES)', # link all the C files too
