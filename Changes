@@ -1,5 +1,10 @@
 Revision history for Perl extension HTML::Strip.
 
+2.01  Wed Nov 19 10:48:04 GMT 2014
+    (patch contributed by Michi Steiner)
+    - clean buffer needs an extra char when emit_spaces=1 and the input has
+      nothing to be removed (RT#41035)
+
 2.00  Tue Nov 18 16:14:42 GMT 2014
     - utf8 support via libicu (RT#42834)
     - smoke test and utf8 test, tests ordered

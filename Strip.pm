@@ -2,7 +2,7 @@ package HTML::Strip;
 
 require DynaLoader;
 our @ISA = qw(DynaLoader);
-our $VERSION = '2.00';
+our $VERSION = '2.01';
 bootstrap HTML::Strip $VERSION;
 
 use 5.006;
