@@ -17,6 +17,7 @@ t/230_filter.t
 t/240_striptags.t
 t/250_whitespace_single_char.t
 t/260_offbyone.t
-t/270_mathematical-comparisons.t
+t/270_mathematical_comparisons.t
+t/280_invalid_multiline_segfault.t
 t/300_utf8.t
 t/russian.html
