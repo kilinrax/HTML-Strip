@@ -1,8 +1,5 @@
 use Test::More tests => 10;
 
-use feature 'unicode_strings';
-use utf8;
-
 use HTML::Strip;
 
 my $hs = HTML::Strip->new();
