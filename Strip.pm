@@ -5,7 +5,7 @@ our @ISA = qw(DynaLoader);
 our $VERSION = '2.02';
 bootstrap HTML::Strip $VERSION;
 
-use 5.006;
+use 5.008;
 use warnings;
 use strict;
 
