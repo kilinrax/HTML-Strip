@@ -1,7 +1,5 @@
-use strict;
-
-# test for RT#94713
 use Test::More tests => 1;
+# test for RT#94713
 
 my $INC = join ' ', map { "-I$_" } @INC;
 
