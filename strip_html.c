@@ -1,25 +1,22 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#include <unicode/uchar.h>
-#include <unicode/ustring.h>
-#include <unicode/ustdio.h>
 #include "strip_html.h"
 
 void
-strip_html( Stripper * stripper, UChar * raw, UChar * output ) {
-  UChar * p_raw = raw;
-  UChar * raw_end = raw + u_strlen(raw);
-  UChar * p_output = output;
-  UFILE * u_stdout = u_finit(stdout, NULL, NULL);
+strip_html( Stripper * stripper, char * raw, char * output ) {
+  char * p_raw = raw;
+  char * raw_end = raw + strlen(raw);
+  char * p_output = output;
+  int width;
 
   if( stripper->o_debug ) {
-      u_fprintf( u_stdout, "[DEBUG] input string: %S\n", p_raw );
+      printf( "[DEBUG] input string: %s\n", p_raw );
   }
 
   while( p_raw < raw_end ) {
     if( stripper->o_debug ) {
-      u_fprintf( u_stdout, "[DEBUG] UChar %C state %c %c %c tag:%5s, %c %c %c %c, %c %c %c %c:%c, ",
+      printf( "[DEBUG] char %C state %c %c %c tag:%5s, %c %c %c %c, %c %c %c %c:%c, ",
         *p_raw,
         (stripper->f_closing ? 'C' : ' '),
         (stripper->f_in_tag ? 'T' : ' '),
@@ -36,6 +33,8 @@ strip_html( Stripper * stripper, UChar * raw, UChar * output ) {
         (stripper->quote ? stripper->quote : ' ')
       );
     }
+
+    width = utf8_char_width(p_raw);
     // either a single char or a set of unicode code points;
     if( stripper->f_in_tag ) {
       /* inside a tag */
@@ -145,7 +144,7 @@ strip_html( Stripper * stripper, UChar * raw, UChar * output ) {
             /* output a space in place of tags we have previously parsed,
                and set a flag so we only do this once for every group of tags.
                done here to prevent unnecessary trailing spaces */
-            if( !u_isspace(*p_raw) &&
+            if( !isspace(*p_raw) &&
               /* don't output a space if this character is one anyway */
                 !stripper->f_outputted_space &&
                 stripper->f_just_seen_tag ) {
@@ -159,12 +158,13 @@ strip_html( Stripper * stripper, UChar * raw, UChar * output ) {
           if( stripper->o_debug ) {
             printf("CHAR %c", *p_raw);
           }
-          u_strncpy(p_output, p_raw, 1);
-          p_output++;
+          strncpy(p_output, p_raw, width);
+          p_output += width;
+
           /* reset 'just seen tag' flag */
           stripper->f_just_seen_tag = 0;
           /* reset 'outputted space' flag if character is not one */
-          if (!u_isspace(*p_raw)) {
+          if (!isspace(*p_raw)) {
             stripper->f_outputted_space = 0;
           } else {
             stripper->f_outputted_space = 1;
@@ -172,7 +172,7 @@ strip_html( Stripper * stripper, UChar * raw, UChar * output ) {
         }
       }
     } /* in tag check */
-    p_raw++;
+    p_raw += width;
     if( stripper->o_debug ) {
       printf("\n");
     }
@@ -183,7 +183,38 @@ strip_html( Stripper * stripper, UChar * raw, UChar * output ) {
   if (stripper->o_auto_reset) {
     reset( stripper );
   }
-  u_fclose(u_stdout);
+}
+
+int
+utf8_char_width(unsigned char * string) {
+    if (~*string & 128) {                   // 0xxxxxxx
+        return 1;
+    } else if ((*string & 192) == 128) {      // 10xxxxxx
+        /* latter bytes of a multibyte utf8 char
+       XXX this should never happen in practice XXX
+           but we account for it anyway */
+        int width = 1;
+        char * p = string;
+        while ((*p++ & 192) == 128) {
+            width++;
+        }
+        return width;
+    } else if ((*string & 224) == 192) {      // 110xxxxx
+        return 2;
+    } else if ((*string & 240) == 224) {      // 1110xxxx
+        return 3;
+    } else if ((*string & 248) == 240) {      // 11110xxx
+        return 4;
+    /* part of ioriginal utf8 spec, but not used
+    } else if ((*string & 252) == 248) {      // 111110xx
+        return 1;
+    } else if ((*string & 254) == 252) {      // 1111110x
+        return 1;
+    */
+    } else {
+        printf( "[WARN] invalid utf8 char ord=%i\n", *string );
+        return 1;
+    }
 }
 
 void
@@ -227,7 +258,7 @@ add_striptag( Stripper * stripper, char * striptag ) {
 #endif
 
 void
-check_end( Stripper * stripper, UChar end ) {
+check_end( Stripper * stripper, char end ) {
   /* if p_raw character is a slash, may be a closed tag */
   if( end == '/' ) {
     stripper->f_lastchar_slash = 1;
@@ -238,7 +269,7 @@ check_end( Stripper * stripper, UChar end ) {
      * will also end the tag, since we only want it for comparison with
      * the opening one */
     if( (end == '>') ||
-        (stripper->f_in_striptag && stripper->f_closing && u_isspace(end)) ) {
+        (stripper->f_in_striptag && stripper->f_closing && isspace(end)) ) {
       stripper->f_in_quote = 0;
       stripper->f_in_comment = 0;
       stripper->f_in_decl = 0;

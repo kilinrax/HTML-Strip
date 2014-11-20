@@ -1,5 +1,9 @@
 Revision history for Perl extension HTML::Strip.
 
+2.02  Thu Nov 20 11:21:35 GMT 2014
+    - removed dependency on libicu-dev, which isn't as universal as expected
+      and was causing a bunch of cpan tester failures
+
 2.01  Wed Nov 19 10:48:04 GMT 2014
     (patch contributed by Michi Steiner)
     - clean buffer needs an extra char when emit_spaces=1 and the input has

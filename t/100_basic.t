@@ -6,7 +6,7 @@ use utf8;
 BEGIN { use_ok 'HTML::Strip' }
 
 {
-  my $hs = HTML::Strip->new(debug => 1);
+  my $hs = HTML::Strip->new();
 
   is( $hs->parse( 'test' ), 'test', 'works with plain text' );
   $hs->eof;

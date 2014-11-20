@@ -3,7 +3,6 @@
 #include "perl.h"
 #include "XSUB.h"
 
-#include <unicode/ustring.h>
 #include "strip_html.h"
 
 MODULE = HTML::Strip		PACKAGE = HTML::Strip
@@ -28,30 +27,23 @@ DESTROY( stripper )
   Safefree( stripper );
 
 SV *
-strip_html( stripper, raw )
+strip_html( stripper, text )
   Stripper *    stripper
-  char *        raw
+  SV *          text
  PREINIT:
-  UErrorCode    u_error = U_ZERO_ERROR;
-  UChar *       u_raw;
-  UChar *       u_clean;
-  char *        clean;
-  int size = strlen(raw)+1;
+  char *    raw = (char *)SvPV_nolen(text);
+  char *    clean;
+  int       size = strlen(raw)+1;
  INIT:
-  Newx( u_raw,   size,   UChar );
-  Newx( u_clean, size+1, UChar );
-  Newx( clean,   size+1, char);
-  u_strFromUTF8( u_raw, size, NULL, raw, -1, &u_error );
+  Newx( clean, size+1, char);
  CODE:
-  strip_html( stripper, u_raw, u_clean );
-  u_strToUTF8( clean, size+1, NULL, u_clean, -1, &u_error );
+  strip_html( stripper, raw, clean );
   RETVAL = newSVpv(clean, strlen(clean));
-  SvUTF8_on(RETVAL);
+  if( SvUTF8(text) )
+      SvUTF8_on(RETVAL);
  OUTPUT:
   RETVAL
  CLEANUP:
-  Safefree( u_raw );
-  Safefree( u_clean );
   Safefree( clean );
 
 void

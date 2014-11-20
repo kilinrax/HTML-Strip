@@ -1,5 +1,3 @@
-#include <unicode/umachine.h>
-
 #define MAX_TAGNAMELENGTH 20
 #define MAX_STRIPTAGS 20
 
@@ -28,16 +26,15 @@ typedef struct Stripper {
   int numstriptags;
   int o_emit_spaces;
   int o_decode_entities;
-  int o_utf8;
 
   int o_auto_reset;
 
   int o_debug;
 } Stripper;
 
-void strip_html( Stripper * stripper, UChar * raw, UChar * clean );
+void strip_html( Stripper * stripper, char * raw, char * clean );
 void reset( Stripper * stripper );
 void clear_striptags( Stripper * stripper );
 void add_striptag( Stripper * stripper, char * tag );
 
-void check_end( Stripper * stripper, UChar );
+void check_end( Stripper * stripper, char );
