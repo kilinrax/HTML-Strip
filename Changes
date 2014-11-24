@@ -1,5 +1,13 @@
 Revision history for Perl extension HTML::Strip.
 
+2.03  Mon Nov 24 13:48:44 GMT 2014
+    - removed trailing libicu deps
+    - perl minimum version to 5.8 (needed for unicode support).
+    - cleaned up test suite
+    - version bump in META.YML (RT#100457)
+    - 'use feature' breaking perl 5.8, removed (RT#100453)
+    - added Test::Exception to build_requires
+
 2.02  Thu Nov 20 11:21:35 GMT 2014
     - removed dependency on libicu-dev, which isn't as universal as expected
       and was causing a bunch of cpan tester failures
