@@ -14,7 +14,8 @@ WriteMakefile(
         'DynaLoader'    => 0,
 
         # build requires
-        'Test::More'    => 0,
+        'Test::More'        => 0,
+        'Test::Exception'   => 0,
     },
     ABSTRACT_FROM       => 'Strip.pm',
     AUTHOR              => 'Alex Bowley <kilinrax@cpan.org>',
