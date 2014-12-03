@@ -31,7 +31,7 @@ SKIP: {
 
 sub strip_spaces {
     my $text = shift;
-    (my $stripped = $text) =~ tr! !!d;
+    my $stripped = $text =~ tr! !!dr;
     return $stripped;
 }
 
