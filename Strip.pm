@@ -2,7 +2,7 @@ package HTML::Strip;
 
 require DynaLoader;
 our @ISA = qw(DynaLoader);
-our $VERSION = '2.05';
+our $VERSION = '2.06';
 bootstrap HTML::Strip $VERSION;
 
 use 5.008;
@@ -293,5 +293,10 @@ Alex Bowley E<lt>kilinrax@cpan.orgE<gt>
 =head1 SEE ALSO
 
 L<perl>, L<HTML::Parser>, L<HTML::Entities>
+
+=head1 LICENSE
+
+his program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =cut
