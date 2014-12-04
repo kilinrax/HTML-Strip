@@ -3,7 +3,7 @@ use Test::More tests => 5;
 use HTML::Strip;
 use FindBin qw/$Bin/;
 
-use Encode qw/encode is_utf8/;
+use Encode qw/is_utf8/;
 
 my $filename = "$Bin/russian.html";
 ok( open my $fh, $filename );
@@ -15,13 +15,13 @@ SKIP: {
 	my $data = <$fh>;
 	close $fh;
 
+	binmode DATA, ':utf8';
     my $expected_text = <DATA>;
 
-	my $hs = HTML::Strip->new();
+	my $hs = HTML::Strip->new(debug => 1);
 	ok( my $clean_text = $hs->parse( $data ) );
 
     ok( is_utf8($clean_text), "Text comes back as UTF-8" );
-    $clean_text = encode( 'UTF-8', $clean_text ); 
 	is( strip_spaces($clean_text), strip_spaces($expected_text) );
     TODO: {
         local $TODO = "emit_spaces after '»' is inconsistent on other arch/versions"; 
