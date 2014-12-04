@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::Strip.
 
+2.05  Wed Dec  3 16:05:13 GMT 2014
+    - fix to bug in t/300_utf8.t causing whitespace not to be stripped
+
 2.04  Tue Nov 25 11:14:08 GMT 2014
     - many cpan tester failures due to witespace in utf8 test,
       main test done with whitespace stripped, todo test as before
