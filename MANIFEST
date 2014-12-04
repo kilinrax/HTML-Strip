@@ -21,3 +21,6 @@ t/270_mathematical_comparisons.t
 t/280_invalid_multiline_segfault.t
 t/300_utf8.t
 t/russian.html
+t/400_kwalitee.t
+t/410_pod.t
+t/420_pod_coverage.t

@@ -5,7 +5,7 @@
 #include "strip_html.h"
 
 void
-strip_html( Stripper * stripper, char * raw, char * output ) {
+_strip_html( Stripper * stripper, char * raw, char * output ) {
   char * p_raw = raw;
   char * raw_end = raw + strlen(raw);
   char * p_output = output;
@@ -182,7 +182,7 @@ strip_html( Stripper * stripper, char * raw, char * output ) {
   *p_output = 0;
 
   if (stripper->o_auto_reset) {
-    reset( stripper );
+    _reset( stripper );
   }
 }
 
@@ -219,7 +219,7 @@ utf8_char_width(unsigned char * string) {
 }
 
 void
-reset( Stripper * stripper ) {
+_reset( Stripper * stripper ) {
   stripper->f_in_tag = 0;
   stripper->f_closing = 0;
   stripper->f_lastchar_slash = 0;

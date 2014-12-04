@@ -2,7 +2,7 @@ package HTML::Strip;
 
 require DynaLoader;
 our @ISA = qw(DynaLoader);
-our $VERSION = '2.06';
+our $VERSION = '2.07';
 bootstrap HTML::Strip $VERSION;
 
 use 5.008;
@@ -27,7 +27,7 @@ my %defaults = (
 
 sub new {
     my $class = shift;
-    my $obj = create();
+    my $obj = _create();
     bless $obj, $class;
 
     my %args = (%defaults, @_);
@@ -45,9 +45,9 @@ sub new {
 sub set_striptags {
     my ($self, @tags) = @_;
     if( ref($tags[0]) eq 'ARRAY' ) {
-        $self->set_striptags_ref( $tags[0] );
+        $self->_set_striptags_ref( $tags[0] );
     } else {
-        $self->set_striptags_ref( \@tags );
+        $self->_set_striptags_ref( \@tags );
     }
 }
 
@@ -96,13 +96,13 @@ sub _do_filter {
 
 sub parse {
     my ($self, $text) = @_;
-    my $stripped = $self->strip_html( $text );
+    my $stripped = $self->_strip_html( $text );
     return $self->_do_filter( $stripped );
 }
 
 sub eof {
     my $self = shift;
-    $self->reset();
+    $self->_reset();
 }
 
 1;
@@ -252,6 +252,21 @@ parser remembers its state from one call to C<parse> to
 another, until you call C<eof> explicitly. Set to false
 by default.
 
+=item set_debug()
+
+Outputs extensive debugging information on internal state during the parse.
+Not intended to be used by anyone except the module maintainer.
+
+=item decode_entities()
+
+=item filter()
+
+=item auto_reset()
+
+=item debug()
+
+Readonly accessors for their respective settings.
+
 =back
 
 =head2 LIMITATIONS
@@ -296,7 +311,7 @@ L<perl>, L<HTML::Parser>, L<HTML::Entities>
 
 =head1 LICENSE
 
-his program is free software; you can redistribute it and/or modify it under
+This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut

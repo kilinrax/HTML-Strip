@@ -9,12 +9,12 @@ MODULE = HTML::Strip		PACKAGE = HTML::Strip
 PROTOTYPES: ENABLE
 
 Stripper *
-create()
+_create()
  PREINIT:
   Stripper * stripper;
  CODE:
   Newx( stripper, 1, Stripper );
-  reset( stripper );
+  _reset( stripper );
   RETVAL = stripper;
  OUTPUT:
   RETVAL
@@ -26,7 +26,7 @@ DESTROY( stripper )
   Safefree( stripper );
 
 SV *
-strip_html( stripper, text )
+_strip_html( stripper, text )
   Stripper *    stripper
   SV *          text
  PREINIT:
@@ -36,7 +36,7 @@ strip_html( stripper, text )
  INIT:
   Newx( clean, size+1, char);
  CODE:
-  strip_html( stripper, raw, clean );
+  _strip_html( stripper, raw, clean );
   RETVAL = newSVpv(clean, strlen(clean));
   if( SvUTF8(text) )
       SvUTF8_on(RETVAL);
@@ -46,7 +46,7 @@ strip_html( stripper, text )
   Safefree( clean );
 
 void
-reset( stripper )
+_reset( stripper )
   Stripper * stripper
 
 void
@@ -81,7 +81,7 @@ decode_entities( stripper )
   RETVAL
 
 void
-set_striptags_ref( stripper, tagref )
+_set_striptags_ref( stripper, tagref )
   Stripper * stripper
   SV * tagref
  PREINIT:

@@ -32,8 +32,8 @@ typedef struct Stripper {
   int o_debug;
 } Stripper;
 
-void strip_html( Stripper * stripper, char * raw, char * clean );
-void reset( Stripper * stripper );
+void _strip_html( Stripper * stripper, char * raw, char * clean );
+void _reset( Stripper * stripper );
 void clear_striptags( Stripper * stripper );
 void add_striptag( Stripper * stripper, char * tag );
 

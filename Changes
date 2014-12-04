@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::Strip.
 
+2.07  Thu Dec  4 14:07:03 GMT 2014
+    - improvements for Kwalitee
+
 2.06  Thu Dec  4 12:59:54 GMT 2014
     - strip_spaces in utf8 test was using perl v5.14+ features
     - reading of DATA in utf8 test should be native utf8 not use Encode,
