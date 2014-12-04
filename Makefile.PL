@@ -10,9 +10,7 @@ WriteMakefile(
         'warnings'      => 0,
         'strict'        => 0,
         'Carp'          => 0,
-        'Exporter'      => 0,
         'DynaLoader'    => 0,
-
         # build requires
         'Test::More'        => 0,
         'Test::Exception'   => 0,
@@ -26,6 +24,9 @@ WriteMakefile(
             'HTML::Entities' => 0,
         },
     },
+  ) : () ),
+  ( $EUMM_VERSION >= 6.48 ? (
+    MIN_PERL_VERSION    => 5.008,
   ) : () ),
     LIBS                => [''], # e.g., '-lm'
     DEFINE              => '', # e.g., '-DHAVE_SOMETHING'
