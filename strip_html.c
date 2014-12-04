@@ -206,11 +206,11 @@ utf8_char_width(unsigned char * string) {
         return 3;
     } else if ((*string & 248) == 240) {      // 11110xxx
         return 4;
-    /* part of ioriginal utf8 spec, but not used
+    /* part of original utf8 spec, but not used
     } else if ((*string & 252) == 248) {      // 111110xx
-        return 1;
+        return 5;
     } else if ((*string & 254) == 252) {      // 1111110x
-        return 1;
+        return 6;
     */
     } else {
         printf( "[WARN] invalid utf8 char ord=%i\n", *string );
