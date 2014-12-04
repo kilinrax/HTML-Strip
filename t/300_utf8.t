@@ -18,7 +18,7 @@ SKIP: {
 	binmode DATA, ':utf8';
     my $expected_text = <DATA>;
 
-	my $hs = HTML::Strip->new(debug => 1);
+	my $hs = HTML::Strip->new();
 	ok( my $clean_text = $hs->parse( $data ) );
 
     ok( is_utf8($clean_text), "Text comes back as UTF-8" );
