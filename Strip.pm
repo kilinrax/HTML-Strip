@@ -107,7 +107,6 @@ sub eof {
 
 1;
 __END__
-# Below is stub documentation for your module. You better edit it!
 
 =head1 NAME
 
@@ -124,10 +123,10 @@ HTML::Strip - Perl extension for stripping HTML markup from text.
 
 =head1 DESCRIPTION
 
-This module simply strips HTML-like markup from text in a very quick
-and brutal manner. It could quite easily be used to strip XML or SGML
-from text as well; but removing HTML markup is a much more common
-problem, hence this module lives in the HTML:: namespace.
+This module simply strips HTML-like markup from text rapidly and
+brutally.  It could easily be used to strip XML or SGML markup
+instead; but as removing HTML is a much more common problem, this
+module lives in the HTML:: namespace.
 
 It is written in XS, and thus about five times quicker than using
 regular expressions for the same task.
@@ -140,7 +139,7 @@ L<HTML::Parser>), instead it merely applies the following rules:
 =item 1
 
 Anything that looks like a tag, or group of tags will be replaced with
-a single space character. Tags are considered to be anything that
+a single space character.  Tags are considered to be anything that
 starts with a C<E<lt>> and ends with a C<E<gt>>; with the caveat that a
 C<E<gt>> character may appear in either of the following without
 ending the tag:
@@ -156,30 +155,31 @@ escaping slashes (i.e. C<\"> does not end the quote but C<\\\\"> does).
 =item Comment
 
 If the tag starts with an exclamation mark, it is assumed to be a
-declaration or a comment. Within such tags, C<E<gt>> characters do not
-end the tag if they appear within pairs of double dashes (e.g. C<E<lt>!--
-E<lt>a href="old.htm"E<gt>old pageE<lt>/aE<gt> --E<gt>> would be
-stripped completely). Inside a comment, no parsing for quotes
-is done as well. (That means C<E<lt>!-- comment with ' quote " --E<gt>>
-are entirely stripped.)
+declaration or a comment.   Within such tags, C<E<gt>> characters do not
+end the tag if they appear within pairs of double dashes
+(e.g. C<E<lt>!-- E<lt>a href="old.htm"E<gt>old pageE<lt>/aE<gt> --E<gt>>
+would be stripped completely).  No parsing for quotes is performed
+within comments, so for instance
+C<E<lt>!-- comment with both ' quote types " --E<gt>>
+would be entirely stripped.
 
 =back
 
 =item 2
 
-Anything the appears within so-called I<strip tags> is stripped as
-well. By default, these tags are C<title>, C<script>, C<style> and
+Anything the appears within what we term I<strip tags> is stripped as
+well.  By default, these tags are C<title>, C<script>, C<style> and
 C<applet>.
 
 =back
 
 HTML::Strip maintains state between calls, so you can parse a document
-in chunks should you wish. If one chunk ends half-way through a tag,
+in chunks should you wish.  If one chunk ends half-way through a tag,
 quote, comment, or whatever; it will remember this, and expect the
 next call to parse to start with the remains of said tag.
 
 If this is not going to be the case, be sure to call $hs->eof()
-between calls to $hs->parse(). Alternatively, you may
+between calls to $hs->parse().   Alternatively, you may
 set C<auto_reset> to true on the constructor or any time
 after with C<set_auto_reset>, so that the parser will always
 operate in one-shot basis (resetting after each parsed chunk).
@@ -190,7 +190,7 @@ operate in one-shot basis (resetting after each parsed chunk).
 
 =item new()
 
-Constructor. Can optionally take a hash of settings (with keys
+Constructor.  Can optionally take a hash of settings (with keys
 corresponsing to the C<set_> methods below).
 
 For example, the following is a valid constructor:
@@ -223,13 +223,13 @@ set of strip tags.
 
 =item set_emit_spaces()
 
-Takes a boolean value. If set to false, HTML::Strip will not attempt
-any conversion of tags into spaces. Set to true by default.
+Takes a boolean value.  If set to false, HTML::Strip will not attempt
+any conversion of tags into spaces.  Set to true by default.
 
 =item set_decode_entities()
 
-Takes a boolean value. If set to false, HTML::Strip will decode HTML
-entities. Set to true by default.
+Takes a boolean value.  If set to false, HTML::Strip will decode HTML
+entities.  Set to true by default.
 
 =item filter_entities()
 
@@ -241,15 +241,15 @@ it respects the current setting of 'decode_entities'.
 
 Sets a filter to be applied after tags were stripped.
 It may accept the name of a method (like 'filter_entities')
-or a code ref. By default, its value is 'filter_entities'
+or a code ref.  By default, its value is 'filter_entities'
 if HTML::Entities is available or C<undef> otherwise.
 
 =item set_auto_reset()
 
-Takes a boolean value. If set to true, C<parse> resets after
-each call (equivalent to calling C<eof>). Otherwise, the
+Takes a boolean value.  If set to true, C<parse> resets after
+each call (equivalent to calling C<eof>).  Otherwise, the
 parser remembers its state from one call to C<parse> to
-another, until you call C<eof> explicitly. Set to false
+another, until you call C<eof> explicitly.  Set to false
 by default.
 
 =item set_debug()
