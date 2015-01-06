@@ -32,7 +32,7 @@ typedef struct Stripper {
   int o_debug;
 } Stripper;
 
-void _strip_html( Stripper * stripper, char * raw, char * clean );
+void _strip_html( Stripper * stripper, char * raw, char * clean, int is_utf8_p );
 void _reset( Stripper * stripper );
 void clear_striptags( Stripper * stripper );
 void add_striptag( Stripper * stripper, char * tag );

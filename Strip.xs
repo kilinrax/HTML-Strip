@@ -36,7 +36,7 @@ _strip_html( stripper, text )
  INIT:
   Newx( clean, size+1, char);
  CODE:
-  _strip_html( stripper, raw, clean );
+  _strip_html( stripper, raw, clean, SvUTF8(text) );
   RETVAL = newSVpv(clean, strlen(clean));
   if( SvUTF8(text) )
       SvUTF8_on(RETVAL);

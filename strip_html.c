@@ -5,7 +5,7 @@
 #include "strip_html.h"
 
 void
-_strip_html( Stripper * stripper, char * raw, char * output ) {
+_strip_html( Stripper * stripper, char * raw, char * output, int is_utf8_p ) {
   char * p_raw = raw;
   char * raw_end = raw + strlen(raw);
   char * p_output = output;
@@ -16,26 +16,27 @@ _strip_html( Stripper * stripper, char * raw, char * output ) {
   }
 
   while( p_raw < raw_end ) {
+    width = is_utf8_p ? utf8_char_width(p_raw) : 1;
+
     if( stripper->o_debug ) {
-      printf( "[DEBUG] char %C state %c %c %c tag:%5s, %c %c %c %c, %c %c %c %c:%c, ",
+      printf( "[DEBUG] char:%C w%i state:%c%c%c tag:%5s last:%c%c%c%c in:%c%c%c quote:%c ",
         *p_raw,
+        width,
         (stripper->f_closing ? 'C' : ' '),
         (stripper->f_in_tag ? 'T' : ' '),
         (stripper->f_full_tagname ? 'F' : ' '),
         stripper->tagname,
-        (stripper->f_just_seen_tag ? 'J' : ' '),
+        (stripper->f_just_seen_tag ? 'T' : ' '),
         (stripper->f_outputted_space ? 'S' : ' '),
         (stripper->f_lastchar_slash ? '/' : ' '),
         (stripper->f_lastchar_minus ? '-' : ' '),
         (stripper->f_in_decl ? 'D' : ' '),
         (stripper->f_in_comment ? 'C' : ' '),
         (stripper->f_in_striptag ? 'X' : ' '),
-        (stripper->f_in_quote ? 'Q' : ' '),
-        (stripper->quote ? stripper->quote : ' ')
+        (stripper->f_in_quote ? stripper->quote : ' ')
       );
     }
 
-    width = utf8_char_width(p_raw);
     // either a single char or a set of unicode code points;
     if( stripper->f_in_tag ) {
       /* inside a tag */
@@ -156,10 +157,10 @@ _strip_html( Stripper * stripper, char * raw, char * output ) {
               stripper->f_outputted_space = 1;
             }
           }
-          if( stripper->o_debug ) {
-            printf("CHAR %c", *p_raw);
-          }
           strncpy(p_output, p_raw, width);
+          if( stripper->o_debug ) {
+              printf("CHAR %c", *p_raw);
+          }
           p_output += width;
 
           /* reset 'just seen tag' flag */

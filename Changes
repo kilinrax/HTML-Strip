@@ -1,8 +1,11 @@
 Revision history for Perl extension HTML::Strip.
 
+2.09  Mon Jan  5 16:51:17 GMT 2015
+    - fixed latin1 support, added test case for it (RT#100969)
+
 2.08  Tue Dec  9 15:02:02 GMT 2014
     - replaced html entities in russian.html (read by utf8 test), as the
-      test should not fail due to problems with HTML::Entities.
+      test should not fail due to problems with HTML::Entities
 
 2.07  Thu Dec  4 14:07:03 GMT 2014
     - improvements for Kwalitee
@@ -21,7 +24,7 @@ Revision history for Perl extension HTML::Strip.
 
 2.03  Mon Nov 24 13:48:44 GMT 2014
     - removed trailing libicu deps
-    - perl minimum version to 5.8 (needed for unicode support).
+    - perl minimum version to 5.8 (needed for unicode support)
     - cleaned up test suite
     - version bump in META.YML (RT#100457)
     - 'use feature' breaking perl 5.8, removed (RT#100453)
@@ -81,33 +84,33 @@ Revision history for Perl extension HTML::Strip.
 	- Constructor options now passed in a hash
 
 1.02  Tue Feb 24 16:24:18 2004
-        - Yet more checks to prevent extraneous whitespace
-        - Added many more tests
+    - Yet more checks to prevent extraneous whitespace
+    - Added many more tests
 
 1.01  Mon Jul  7 18:15:59 2003
-        - Removed provision for escaped quotes in attributes values
-        - More checks to prevent the outputting of extraneous whitespace
+    - Removed provision for escaped quotes in attributes values
+    - More checks to prevent the outputting of extraneous whitespace
 
 1.00  Wed Jun 11 12:05:47 2003
-        - rewritten in C, using a struct for each object to keep track
-          of state and striptags
+    - rewritten in C, using a struct for each object to keep track
+      of state and striptags
 
 0.05  Thu May 22 19:49:25 2003
-        - removed "XSOPT => '-C++'" from Makefile.PL as it was
-          unnecessary and causing problems for some people
-        - added "#include <string.h>" to strip_html.cpp as it's
-          absence was causing problems for some people
+    - removed "XSOPT => '-C++'" from Makefile.PL as it was
+      unnecessary and causing problems for some people
+    - added "#include <string.h>" to strip_html.cpp as it's
+      absence was causing problems for some people
 
 0.04  Sun Mar 23 12:45:13 2003
-        - Tweaked docs, added FAQ explaining why 0.03 failed cpan testing
+    - Tweaked docs, added FAQ explaining why 0.03 failed cpan testing
 
 0.03  Sat Mar 22 11:20:34 2003
-        - rewritten in C++ to make striptags an attribute of each
-          object
+    - rewritten in C++ to make striptags an attribute of each
+      object
 
 0.02  Mon Mar 17 18:20:01 2003
-        - added set_striptags() method
-        - documented module
+    - added set_striptags() method
+    - documented module
 
 0.01  Tue Mar  4 18:17:38 2003
 	- original version; created by h2xs 1.21 with options
