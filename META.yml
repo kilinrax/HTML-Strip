@@ -4,6 +4,10 @@ author:
   - 'Alex Bowley <kilinrax@cpan.org>'
 build_requires:
   ExtUtils::MakeMaker: 0
+  Test::More: 0
+  Test::Exception: 0
+  Encode: 0
+  FindBin: 0
 configure_requires:
   ExtUtils::MakeMaker: 0
 distribution_type: module
