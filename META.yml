@@ -1,7 +1,13 @@
 ---
+name: HTML-Strip
+version: 2.09
 abstract: 'Perl extension for stripping HTML markup from text.'
 author:
   - 'Alex Bowley <kilinrax@cpan.org>'
+license: perl
+distribution_type: module
+recommends:
+  HTML::Entities: 0
 build_requires:
   ExtUtils::MakeMaker: 0
   Test::More: 0
@@ -10,17 +16,17 @@ build_requires:
   FindBin: 0
 configure_requires:
   ExtUtils::MakeMaker: 0
-distribution_type: module
-dynamic_config: 0
-generated_by: 'ExtUtils::MakeMaker version 6.57_05'
-license: perl
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
-name: HTML-Strip
+provides:
+  HTML::Strip:
+    file: Strip.pm
 no_index:
   directory:
     - t
     - inc
-requires: {}
-version: 2.09
+resources:
+  repository: https://github.com/kilinrax/HTML-Strip
+dynamic_config: 0
+generated_by: 'Alex Bowley'
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
