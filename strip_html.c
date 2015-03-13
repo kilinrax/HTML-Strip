@@ -4,6 +4,10 @@
 
 #include "strip_html.h"
 
+#ifdef _MSC_VER
+#define strcasecmp(a,b) stricmp(a,b)
+#endif
+
 void
 _strip_html( Stripper * stripper, char * raw, char * output, int is_utf8_p ) {
   char * p_raw = raw;
@@ -254,10 +258,6 @@ add_striptag( Stripper * stripper, char * striptag ) {
     fprintf( stderr, "Cannot have more than %i strip tags", MAX_STRIPTAGS );
   }
 }
-
-#ifdef _MSC_VER
-#define strcasecmp(a,b) stricmp(a,b)
-#endif
 
 void
 check_end( Stripper * stripper, char end ) {
