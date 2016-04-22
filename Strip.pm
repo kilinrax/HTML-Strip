@@ -2,7 +2,7 @@ package HTML::Strip;
 
 require DynaLoader;
 our @ISA = qw(DynaLoader);
-our $VERSION = '2.09';
+our $VERSION = '2.10';
 bootstrap HTML::Strip $VERSION;
 
 use 5.008;
@@ -66,9 +66,11 @@ sub set_striptags {
         return $filter_of{0+$self}
     }
 
+    # XXX rename _xs_destroy() to DESTROY() in Strip.xs if removing this code
     sub DESTROY {
         my $self = shift;
         delete $filter_of{0+$self};
+        $self->_xs_destroy;
     }
 }
 

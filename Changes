@@ -1,5 +1,9 @@
 Revision history for Perl extension HTML::Strip.
 
+2.10  Fri Apr 22 12:16:17 BST 2016
+    - fix to building on Windows / MSVC (RT#102389)
+    - fix duplicate DESTROY in Strip(.pm,.xs) warning (RT#104379, Debian bug #785032)
+
 2.09  Mon Jan  5 16:51:17 GMT 2015
     - fixed latin1 support, added test case for it (RT#100969)
 

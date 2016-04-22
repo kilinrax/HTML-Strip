@@ -20,7 +20,7 @@ _create()
   RETVAL
 
 void
-DESTROY( stripper )
+_xs_destroy( stripper )
   Stripper * stripper
  CODE:
   Safefree( stripper );
