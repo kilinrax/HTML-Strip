@@ -184,7 +184,7 @@ If this is not going to be the case, be sure to call $hs->eof()
 between calls to $hs->parse().   Alternatively, you may
 set C<auto_reset> to true on the constructor or any time
 after with C<set_auto_reset>, so that the parser will always
-operate in one-shot basis (resetting after each parsed chunk).
+operate on a one-shot basis (resetting after each parsed chunk).
 
 =head2 METHODS
 
@@ -230,7 +230,7 @@ any conversion of tags into spaces.  Set to true by default.
 
 =item set_decode_entities()
 
-Takes a boolean value.  If set to false, HTML::Strip will decode HTML
+Takes a boolean value.  If set to false, HTML::Strip will not decode HTML
 entities.  Set to true by default.
 
 =item filter_entities()
