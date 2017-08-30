@@ -127,14 +127,14 @@ HTML::Strip - Perl extension for stripping HTML markup from text.
 
 This module simply strips HTML-like markup from text rapidly and
 brutally.  It could easily be used to strip XML or SGML markup
-instead; but as removing HTML is a much more common problem, this
+instead - but as removing HTML is a much more common problem, this
 module lives in the HTML:: namespace.
 
 It is written in XS, and thus about five times quicker than using
 regular expressions for the same task.
 
-It does I<not> do any syntax checking (if you want that, use
-L<HTML::Parser>), instead it merely applies the following rules:
+It does I<not> do any syntax checking.  If you want that, use
+L<HTML::Parser>.  Instead it merely applies the following rules:
 
 =over 4
 
@@ -169,22 +169,20 @@ would be entirely stripped.
 
 =item 2
 
-Anything the appears within what we term I<strip tags> is stripped as
-well.  By default, these tags are C<title>, C<script>, C<style> and
-C<applet>.
+Anything that appears between tags which we term I<strip tags> is removed.
+By default, these tags are C<title>, C<script>, C<style> and C<applet>.
 
 =back
 
 HTML::Strip maintains state between calls, so you can parse a document
-in chunks should you wish.  If one chunk ends half-way through a tag,
-quote, comment, or whatever; it will remember this, and expect the
-next call to parse to start with the remains of said tag.
+in chunks should you wish.  If a call to C<parse()> ends half-way through
+a tag, quote or comment; the next call to C<parse()> expects its input to
+carry on from that point.
 
-If this is not going to be the case, be sure to call $hs->eof()
-between calls to $hs->parse().   Alternatively, you may
-set C<auto_reset> to true on the constructor or any time
-after with C<set_auto_reset>, so that the parser will always
-operate on a one-shot basis (resetting after each parsed chunk).
+If this is not the behaviour you want, you can either call C<eof()>
+between calls to C<parse()>, or set C<auto_reset> to true (either
+on the constructor or with C<set_auto_reset>) so that the parser will
+reset after each call.
 
 =head2 METHODS
 
@@ -195,12 +193,12 @@ operate on a one-shot basis (resetting after each parsed chunk).
 Constructor.  Can optionally take a hash of settings (with keys
 corresponsing to the C<set_> methods below).
 
-For example, the following is a valid constructor:
+Example:
 
  my $hs = HTML::Strip->new(
-                           striptags   => [ 'script', 'iframe' ],
-                           emit_spaces => 0
-                          );
+     striptags   => [ 'script', 'iframe' ],
+     emit_spaces => 0
+ );
 
 =item parse()
 
