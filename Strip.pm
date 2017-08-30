@@ -19,6 +19,7 @@ my %defaults = (
                       script
                       applet )],
     emit_spaces	    => 1,
+    emit_newlines	=> 0,
     decode_entities	=> 1,
     filter          => $_html_entities_p ? 'filter_entities' : undef,
     auto_reset      => 0,
