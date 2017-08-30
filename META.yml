@@ -24,7 +24,10 @@ no_index:
     - t
     - inc
 resources:
-  repository: https://github.com/kilinrax/HTML-Strip
+  repository:
+    url: git://github.com/kilinrax/HTML-Strip.git
+    web: https://github.com/kilinrax/HTML-Strip
+    type: git
 dynamic_config: 0
 generated_by: 'Alex Bowley'
 meta-spec:
