@@ -192,7 +192,7 @@ reset after each call.
 =item new()
 
 Constructor.  Can optionally take a hash of settings (with keys
-corresponsing to the C<set_> methods below).
+corresponding to the C<set_> methods below).
 
 Example:
 
