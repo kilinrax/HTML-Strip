@@ -8,6 +8,8 @@
 #define strcasecmp(a,b) stricmp(a,b)
 #endif
 
+static int utf8_char_width(unsigned char * string);
+
 void
 _strip_html( Stripper * stripper, char * raw, char * output, int is_utf8_p ) {
   char * p_raw = raw;
@@ -206,7 +208,7 @@ _strip_html( Stripper * stripper, char * raw, char * output, int is_utf8_p ) {
   }
 }
 
-int
+static int
 utf8_char_width(unsigned char * string) {
     if (~*string & 128) {                   // 0xxxxxxx
         return 1;
