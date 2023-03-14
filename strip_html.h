@@ -34,7 +34,7 @@ typedef struct Stripper {
 } Stripper;
 
 void _strip_html( Stripper * stripper, char * raw, char * clean, int is_utf8_p );
-int utf8_char_width( unsigned char * string );
+static int utf8_char_width( unsigned char * string );
 void _reset( Stripper * stripper );
 
 void clear_striptags( Stripper * stripper );
