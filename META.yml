@@ -1,6 +1,6 @@
 ---
 name: HTML-Strip
-version: 2.10
+version: 2.11
 abstract: 'Perl extension for stripping HTML markup from text.'
 author:
   - 'Alex Bowley <kilinrax@cpan.org>'
