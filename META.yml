@@ -4,18 +4,23 @@ version: 2.12
 abstract: 'Perl extension for stripping HTML markup from text.'
 author:
   - 'Alex Bowley <kilinrax@cpan.org>'
-license: perl
-distribution_type: module
-recommends:
-  HTML::Entities: 0
-build_requires:
-  ExtUtils::MakeMaker: 0
-  Test::More: 0
-  Test::Exception: 0
-  Encode: 0
-  FindBin: 0
-configure_requires:
-  ExtUtils::MakeMaker: 0
+license:
+  - perl_5
+release_status: stable
+prereqs:
+  runtime:
+    recommends:
+      HTML::Entities: 0
+  build:
+    requires:
+      ExtUtils::MakeMaker: 0
+      Test::More: 0
+      Test::Exception: 0
+      Encode: 0
+      FindBin: 0
+  configure:
+    requires:
+      ExtUtils::MakeMaker: 0
 provides:
   HTML::Strip:
     file: Strip.pm
@@ -31,5 +36,5 @@ resources:
 dynamic_config: 0
 generated_by: 'Alex Bowley'
 meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  url: https://metacpan.org/dist/CPAN-Meta/view/lib/CPAN/Meta/Spec.pm
+  version: 2
