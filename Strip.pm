@@ -227,6 +227,11 @@ set of strip tags.
 Takes a boolean value.  If set to false, HTML::Strip will not attempt
 any conversion of tags into spaces.  Set to true by default.
 
+=item set_emit_newlines()
+
+Takes a boolean value.  If set to true, HTML::Strip will output newlines
+after C<E<lt>brE<gt>> and C<E<lt>pE<gt>> tags.  Set to false by default.
+
 =item set_decode_entities()
 
 Takes a boolean value.  If set to false, HTML::Strip will not decode HTML
